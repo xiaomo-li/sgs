@@ -42,18 +42,9 @@ export class DuoDao extends TriggerSkill {
       if (weapon === undefined) {
         return true;
       }
-      const damageFrom = room.getPlayerById(fromId);
-      const options: CardChoosingOptions = {
-        [PlayerCardsArea.EquipArea]: damageFrom.getCardIds(PlayerCardsArea.EquipArea),
-      };
-      const chooseCardEvent = {
-        fromId: skillUseEvent.fromId!,
-        toId: fromId,
-        options,
-      };
       await room.moveCards({
         movingCards: [{ card: weapon, fromArea: CardMoveArea.EquipArea }],
-        fromId: chooseCardEvent.toId,
+        fromId,
         toId: skillUseEvent.fromId,
         toArea: CardMoveArea.HandArea,
         moveReason: CardMoveReason.ActivePrey,
