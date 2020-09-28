@@ -36,6 +36,8 @@ export class AlcoholSkill extends ActiveSkill {
   async onUse(room: Room, event: ServerEventFinder<GameEventIdentifiers.CardUseEvent>) {
     if (event.toIds !== undefined) {
       EventPacker.addMiddleware({ tag: this.recoverTag, data: true }, event);
+    } else {
+      event.toIds = [event.fromId];
     }
     return event.fromId !== undefined;
   }
