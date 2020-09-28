@@ -113,4 +113,9 @@ export const skillDescriptions: Word[] = [
   },
 ];
 
-export const promptDescriptions: Word[] = [];
+export const promptDescriptions: Word[] = [
+  {
+    source: '{0}: you need to give a jink to {1}',
+    target: '{0}：请交给{1}一张【闪】，否则成为你将【杀】的目标之一'
+  }
+];

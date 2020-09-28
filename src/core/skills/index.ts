@@ -235,6 +235,8 @@ export { RenXin } from './characters/yijiang2013/renxin';
 export { JingCe } from './characters/yijiang2013/jingce';
 export { JunXing } from './characters/yijiang2013/junxing';
 export { YuCe } from './characters/yijiang2013/yuce';
+export { ZhuiKong, ZhuiKongFilter, ZhuiKongDistance } from './characters/yijiang2013/zhuikong';
+export { QiuYuan } from './characters/yijiang2013/qiuyuan';
 
 export { Cheat } from './system/cheat';
 export { BaHu, BaHuShadow } from './game_mode/1v2/bahu';
