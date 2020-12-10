@@ -50,12 +50,7 @@ export abstract class Room<T extends WorkPlace = WorkPlace> {
   protected gameStarted: boolean = false;
   protected gameOvered: boolean = false;
   private onProcessingCards: { [K: string]: CardId[] } = {};
-  protected sideEffectSkills: {
-    [N in System.SideEffectSkillApplierEnum]?: {
-      skillName: string;
-      sourceId: PlayerId;
-    };
-  } = {};
+  protected sideEffectSkills: { [N in System.SideEffectSkillApplierEnum]?: string } = {};
 
   protected abstract init(...args: any[]): void;
   //Server only
@@ -215,17 +210,17 @@ export abstract class Room<T extends WorkPlace = WorkPlace> {
 
   public getSideEffectSkills(player: Player) {
     const skills: string[] = [];
-    for (const [applierEnumString, skillAssembly] of Object.entries(this.sideEffectSkills)) {
-      if (System.SideEffectSkillAppliers[applierEnumString](player, this, skillAssembly?.sourceId)) {
-        skills.push(skillAssembly?.skillName!);
+    for (const [applierEnumString, skillName] of Object.entries(this.sideEffectSkills)) {
+      if (System.SideEffectSkillAppliers[applierEnumString](player, this)) {
+        skills.push(skillName!);
       }
     }
 
     return skills;
   }
 
-  public installSideEffectSkill(applier: System.SideEffectSkillApplierEnum, skillName: string, sourceId: PlayerId) {
-    this.sideEffectSkills[applier] = { skillName, sourceId };
+  public installSideEffectSkill(applier: System.SideEffectSkillApplierEnum, skillName: string) {
+    this.sideEffectSkills[applier] = skillName;
   }
 
   public uninstallSideEffectSkill(applier: System.SideEffectSkillApplierEnum) {
