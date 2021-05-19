@@ -15,6 +15,7 @@ import { PagePropsWithConfig } from 'types/page_props';
 import { AudioService, installAudioPlayerService } from 'ui/audio/install';
 import { Button } from 'ui/button/button';
 import { CharacterCard } from 'ui/character/character';
+import { CharacterSkinCard } from 'ui/character/characterSkin';
 import { CheckBoxGroup } from 'ui/check_box/check_box_group';
 import { Tooltip } from 'ui/tooltip/tooltip';
 import styles from './characters_list.module.css';
@@ -50,7 +51,7 @@ const CharacterSpec = ({
         {translator.trx('death audio')}
       </span>
       {skills.map(skill => (
-        <div className={styles.skill}>
+        <div className={styles.skill} key={skill.Name}>
           <span className={styles.skillName} onClick={onPlaySkillAudio(skill.Name)}>
             {translator.tr(skill.Name)}
           </span>
@@ -153,8 +154,8 @@ export class CharactersList extends React.Component<CharactersListProps> {
             </div>
             {this.focusedCharacterId !== undefined && (
               <Tooltip position={['slightTop']} className={styles.characterTooltip}>
-                <CharacterCard
-                className={styles.specCharacter}
+                <CharacterSkinCard
+                  className={styles.specCharacter}
                   character={Sanguosha.getCharacterById(this.focusedCharacterId)}
                   imageLoader={this.props.imageLoader}
                   translator={this.props.translator}
