@@ -65,7 +65,7 @@ export class PlayerAvatar extends React.Component<PlayerAvatarProps> {
   @mobx.observable.ref
   autoHidePlayerName: boolean = true;
   private inProcessDialog = false;
-
+  private random: boolean = true;
   private openedDialog: string | undefined;
 
   private readonly showPlayerName = mobx.action(() => {
@@ -301,7 +301,8 @@ export class PlayerAvatar extends React.Component<PlayerAvatarProps> {
     if (
       this.PlayerImage === undefined &&
       this.props.presenter.ClientPlayer &&
-      this.props.presenter.ClientPlayer.CharacterId !== undefined
+      this.props.presenter.ClientPlayer.CharacterId !== undefined &&
+      this.random === true
     ) {
       mobx.runInAction(() => {
         this.PlayerImage = () => (
@@ -337,6 +338,11 @@ export class PlayerAvatar extends React.Component<PlayerAvatarProps> {
 
   @mobx.action
   onfocusedSkin = (skinName: string) => {
+    if (skinName === 'random') {
+      this.random = true;
+    } else {
+      this.random = false;
+    }
     const clientPlayer = this.props.presenter.ClientPlayer;
     const character = clientPlayer?.CharacterId !== undefined ? clientPlayer?.Character : undefined;
     if (clientPlayer && character) {
@@ -349,10 +355,11 @@ export class PlayerAvatar extends React.Component<PlayerAvatarProps> {
     }
     this.updateMainImage();
     mobx.autorun(() => {
-      if (this.newMainImage !== this.mainImage) {
+      if (this.newMainImage !== this.mainImage && this.random === false) {
+        this.mainImage = this.newMainImage;
         this.PlayerImage = () => (
           <SwitchAvatar
-            mainImage={this.newMainImage}
+            mainImage={this.mainImage}
             sideImage={this.sideImage}
             className={classNames(styles.playerImage, {
               [styles.dead]: this.props.presenter.ClientPlayer && this.props.presenter.ClientPlayer.Dead,
